@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Botanical Telegram - Floriography Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-serif: 'Libre Baskerville', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+        body { font-family: var(--font-serif); }
+        .font-sans { font-family: var(--font-sans); }
+        .flower-inverted { transform: rotate(180deg); }
+        .flower-left { transform: rotate(-45deg); }
+        .flower-right { transform: rotate(45deg); }
+        .flower-upright { transform: rotate(0deg); }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-900 selection:bg-rose-100 overflow-x-hidden">
+
+    <!-- Emotion Wheel Modal -->
+    <div id="modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-stone-950/95 p-4 transition-opacity duration-300">
+        <button onclick="toggleModal()" class="absolute top-4 right-4 z-[110] p-4 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all hover:rotate-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <div class="w-full h-full overflow-auto flex items-center justify-center p-4">
+            <img src="https://www.visualcapitalist.com/wp-content/uploads/2021/04/guide-to-emotions-motion-wheel.jpg" alt="Emotion Wheel" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="px-8 py-24 text-center bg-white border-b border-stone-200">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-center mb-8">
+                <div class="p-6 bg-rose-50 rounded-full animate-float">
+                    <svg class="text-rose-500" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5 4.5 4.5 0 1 1 16.5 12 4.5 4.5 0 1 1 12 16.5"></path><path d="M12 7.5V2"></path><path d="M12 22v-5.5"></path><path d="m16.5 12 5.5.01"></path><path d="M2 12h5.5"></path><path d="m15.2 8.8 3.9-3.9"></path><path d="m4.9 19.1 3.9-3.9"></path><path d="m15.2 15.2 3.9 3.9"></path><path d="m4.9 4.9 3.9 3.9"></path></svg>
+                </div>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-bold text-stone-800 mb-6 tracking-tighter">The Botanical Telegram</h1>
+            <p class="text-stone-500 max-w-2xl mx-auto italic text-xl md:text-2xl leading-relaxed mb-12 font-sans">
+                "By the simple language of flowers, the most delicate and refined sentiments may be expressed."
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <button onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})" class="group px-12 py-6 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-all shadow-2xl font-sans font-bold uppercase tracking-widest text-sm flex items-center gap-4">
+                    Arrange a Bouquet
+                </button>
+                <button onclick="toggleModal()" class="px-10 py-6 bg-stone-900 text-stone-50 rounded-full hover:bg-stone-800 transition-all font-sans font-bold uppercase tracking-widest text-sm flex items-center gap-4">
+                    Consult Feelings
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="workspace" class="max-w-[1400px] mx-auto p-6 md:p-12 lg:grid lg:grid-cols-12 lg:gap-20 pt-32">
+        
+        <!-- Controls -->
+        <div class="lg:col-span-5 space-y-16">
+            <section>
+                <div class="flex items-center gap-6 mb-10">
+                    <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold font-sans">1</div>
+                    <h2 class="text-3xl font-bold text-stone-800">Identify Sentiment</h2>
+                </div>
+                <div id="emotion-categories" class="grid grid-cols-2 gap-5 mb-8"></div>
+                <div id="sub-emotions" class="hidden bg-white p-8 rounded-3xl border border-stone-200 shadow-sm animate-in fade-in relative">
+                    <p class="text-[11px] uppercase tracking-[0.3em] text-stone-400 mb-8 font-black font-sans">Select Victorian Specifics</p>
+                    <div id="sub-emotion-list" class="flex flex-wrap gap-4"></div>
+                    <div id="flower-preview" class="hidden absolute z-50 bg-white rounded-2xl shadow-2xl border border-stone-200 p-6 pointer-events-none transition-all duration-200" style="min-width: 200px;">
+                        <div class="w-32 h-32 rounded-xl overflow-hidden mb-3 border-2 border-stone-100">
+                            <img id="preview-image" src="" alt="" class="w-full h-full object-cover">
+                        </div>
+                        <p id="preview-name" class="text-sm font-bold text-stone-800 mb-1"></p>
+                        <p id="preview-meaning" class="text-xs text-stone-500 italic"></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Preview -->
+        <div class="lg:col-span-7 mt-20 lg:mt-0 space-y-12">
+            <div class="bg-stone-950 rounded-[5rem] min-h-[700px] flex flex-col p-12 overflow-hidden shadow-4xl relative">
+                <!-- Visual Background -->
+                <div class="absolute inset-0 pointer-events-none opacity-30">
+                    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-emerald-500 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-rose-500 rounded-full blur-[140px] translate-x-1/2 translate-y-1/2"></div>
+                </div>
+
+                <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-center space-y-10 relative z-10">
+                    <div class="w-40 h-40 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                        <svg class="text-stone-800" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5 4.5 4.5 0 1 1 16.5 12 4.5 4.5 0 1 1 12 16.5"></path></svg>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-4xl font-bold text-stone-200 tracking-tight">Compose Your Message</h3>
+                        <p class="text-stone-500 italic max-w-sm text-lg font-sans">Select emotions to grow your botanical arrangement.</p>
+                    </div>
+                </div>
+
+                <div id="active-state" class="hidden flex-1 flex flex-col relative z-10">
+                    <div id="floral-field" class="flex-1 flex flex-wrap justify-center items-center content-center gap-16 py-16"></div>
+                    
+                    <div class="bg-white/5 backdrop-blur-3xl p-12 rounded-[3rem] border border-white/15 shadow-2xl space-y-10 mt-auto">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-rose-100 font-bold text-sm uppercase tracking-[0.4em] font-sans">Synthesis</h3>
+                            <div id="mode-badge" class="px-6 py-2 rounded-full bg-white/10 text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 font-sans border border-white/10">Mode: Upright</div>
+                        </div>
+                        <p id="synthesis-text" class="text-4xl md:text-5xl font-semibold leading-tight text-stone-50 tracking-tight"></p>
+                    </div>
+                    
+                    <div class="mt-8 space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-300 font-bold font-sans text-sm">2</div>
+                            <h2 class="text-2xl font-bold text-stone-200">Presentation Modality</h2>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4" id="modality-controls"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dictionary-entries" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+        </div>
+    </main>
+
+    <footer class="max-w-[1400px] mx-auto p-16 mt-20 border-t border-stone-200 text-stone-400 flex flex-col md:flex-row justify-between items-center gap-10">
+        <div class="flex items-center gap-6 font-sans uppercase tracking-[0.3em] font-bold text-xs">
+            <span>Established 1884</span>
+        </div>
+        <div class="text-center md:text-right font-sans opacity-70 max-w-md italic">
+            Historical floriography sourced from the archives of Routledge & Sons.
+        </div>
+    </footer>
+
+    <script>
+        const FLORAL_DICTIONARY = {
+            "Joyful": { name: "Lily of the Valley", meaning: "Return of Happiness", opposite: "Lingering Sadness", color: "#F8FAFC", image: "flower/lily-of-the-valley.jpg" },
+            "Content": { name: "Daisy", meaning: "Innocence and Loyal Love", opposite: "Disillusionment", color: "#FEF9C3", image: "flower/daisy.jpg" },
+            "Optimistic": { name: "Flowering Almond", meaning: "Hope", opposite: "Despair", color: "#FCE7F3", image: "flower/flowering-almond.jpg" },
+            "Peaceful": { name: "Crocus", meaning: "Youthful Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
+            "Playful": { name: "Yellow Rose", meaning: "Decrease of Love", opposite: "Deepening Affection", color: "#FEF08A", image: "flower/yellow-rose.jpg" },
+            "Powerful": { name: "Cypress", meaning: "Strength in Sorrow", opposite: "Fragility", color: "#064E3B", image: "flower/cypress.jpg" },
+            "Triumphant": { name: "Bay Leaf", meaning: "I change but in death", opposite: "Fickleness", color: "#14532D", image: "flower/bay-leaf.jpg" },
+            "Proud": { name: "Amaryllis", meaning: "Splendid Beauty / Pride", opposite: "Humility", color: "#EF4444", image: "flower/amaryllis.jpg" },
+            "Enchanted": { name: "Fern", meaning: "Fascination / Magic", opposite: "Boredom", color: "#059669", image: "flower/fern.jpg" },
+            "Sentimental": { name: "Purple Lilac", meaning: "First Emotions of Love", opposite: "Indifference", color: "#C084FC", image: "flower/purple-lilac.jpg" },
+            "Compassionate": { name: "Balm", meaning: "Sympathy", opposite: "Callousness", color: "#818CF8", image: "flower/balm.jpg" },
+            "Grateful": { name: "Bellflower", meaning: "Gratitude", opposite: "Ingratitude", color: "#6366F1", image: "flower/bellflower.jpg" },
+            "Deep": { name: "Red Rose", meaning: "Deep Love", opposite: "Animosity", color: "#991B1B", image: "flower/red-rose.jpg" },
+            "Sad": { name: "Purple Hyacinth", meaning: "Sorrow / I am sorry", opposite: "Celebration", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
+            "Lonely": { name: "Asphodel", meaning: "My regrets follow you to the grave", opposite: "New Beginnings", color: "#64748B", image: "flower/asphodel.jpg" },
+            "Grieved": { name: "Aloe", meaning: "Grief", opposite: "Consolation", color: "#166534", image: "flower/aloe.jpg" },
+            "Angry": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
+            "Jealous": { name: "Yellow Rose", meaning: "Jealousy", opposite: "Trust", color: "#EAB308", image: "flower/yellow-rose.jpg" },
+            "Frustrated": { name: "Hydrangea", meaning: "Heartlessness", opposite: "Warmth", color: "#BFDBFE", image: "flower/hydrangea.jpg" },
+            "Scared": { name: "Lavender", meaning: "Distrust", opposite: "Confidence", color: "#C4B5FD", image: "flower/lavender.jpg" },
+            "Anxious": { name: "Red Columbine", meaning: "Anxiety", opposite: "Serenity", color: "#F87171", image: "flower/red-columbine.jpg" },
+            "Amazed": { name: "Angelica", meaning: "Inspiration", opposite: "Dullness", color: "#D1FAE5", image: "flower/angelica.jpg" },
+            "Surprised": { name: "Truffle", meaning: "Surprise", opposite: "Expectation", color: "#78350F", image: "flower/truffle.jpg" }
+        };
+
+        const EMOTION_WHEEL = [
+            { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful"] },
+            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep"] },
+            { label: "Sadness", color: "sky-400", sub: ["Sad", "Lonely", "Grieved"] },
+            { label: "Anger", color: "rose-500", sub: ["Angry", "Jealous", "Frustrated"] },
+            { label: "Fear", color: "orange-400", sub: ["Scared", "Anxious"] },
+            { label: "Surprise", color: "cyan-400", sub: ["Amazed", "Surprised"] },
+        ];
+
+        let state = {
+            selectedEmotions: [],
+            activeCategory: null,
+            nuance: 'Upright'
+        };
+
+        function toggleModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function init() {
+            renderCategories();
+            renderModality();
+            updateBouquet();
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('emotion-categories');
+            container.innerHTML = EMOTION_WHEEL.map(cat => `
+                <button onclick="selectCategory('${cat.label}')" id="cat-${cat.label}" class="p-6 rounded-2xl transition-all border-2 text-left font-bold font-sans text-lg bg-white border-stone-200 hover:border-stone-400 text-stone-700">
+                    ${cat.label}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(label) {
+            state.activeCategory = state.activeCategory === label ? null : label;
+            
+            // UI Update for buttons
+            EMOTION_WHEEL.forEach(cat => {
+                const btn = document.getElementById(`cat-${cat.label}`);
+                if (state.activeCategory === cat.label) {
+                    btn.className = `p-6 rounded-2xl transition-all border-2 text-left font-bold font-sans text-lg bg-${cat.color} text-white border-transparent shadow-xl ring-8 ring-stone-100`;
+                } else {
+                    btn.className = `p-6 rounded-2xl transition-all border-2 text-left font-bold font-sans text-lg bg-white border-stone-200 hover:border-stone-400 text-stone-700`;
+                }
+            });
+
+            const subContainer = document.getElementById('sub-emotions');
+            if (state.activeCategory) {
+                subContainer.classList.remove('hidden');
+                renderSubEmotions();
+            } else {
+                subContainer.classList.add('hidden');
+            }
+        }
+
+        function renderSubEmotions() {
+            const cat = EMOTION_WHEEL.find(c => c.label === state.activeCategory);
+            const list = document.getElementById('sub-emotion-list');
+            list.innerHTML = cat.sub.map(sub => {
+                const flower = FLORAL_DICTIONARY[sub];
+                return `
+                    <button 
+                        onclick="toggleEmotion('${sub}')" 
+                        onmouseenter="showFlowerPreview(event, '${sub}')" 
+                        onmouseleave="hideFlowerPreview()"
+                        class="px-8 py-4 rounded-full text-base font-sans font-bold transition-all border ${state.selectedEmotions.includes(sub) ? 'bg-stone-900 text-stone-50 border-stone-900 shadow-2xl scale-110' : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'}">
+                        ${sub}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function showFlowerPreview(event, emotion) {
+            const flower = FLORAL_DICTIONARY[emotion];
+            if (!flower) return;
+            
+            const preview = document.getElementById('flower-preview');
+            const previewImage = document.getElementById('preview-image');
+            const previewName = document.getElementById('preview-name');
+            const previewMeaning = document.getElementById('preview-meaning');
+            
+            previewImage.src = flower.image;
+            previewImage.alt = flower.name;
+            previewName.textContent = flower.name;
+            previewMeaning.textContent = flower.meaning;
+            
+            preview.classList.remove('hidden');
+            
+            // Position the preview relative to the button
+            const button = event.currentTarget;
+            const buttonRect = button.getBoundingClientRect();
+            const containerRect = document.getElementById('sub-emotions').getBoundingClientRect();
+            
+            // Position to the right of the button, or left if there's no space
+            const spaceRight = window.innerWidth - buttonRect.right;
+            const spaceLeft = buttonRect.left;
+            
+            if (spaceRight >= 250) {
+                preview.style.left = `${buttonRect.right - containerRect.left + 16}px`;
+                preview.style.top = `${buttonRect.top - containerRect.top}px`;
+            } else if (spaceLeft >= 250) {
+                preview.style.left = `${buttonRect.left - containerRect.left - 220}px`;
+                preview.style.top = `${buttonRect.top - containerRect.top}px`;
+            } else {
+                // Center it above or below
+                preview.style.left = `${buttonRect.left - containerRect.left + (buttonRect.width / 2) - 100}px`;
+                preview.style.top = `${buttonRect.bottom - containerRect.top + 16}px`;
+            }
+        }
+
+        function hideFlowerPreview() {
+            const preview = document.getElementById('flower-preview');
+            preview.classList.add('hidden');
+        }
+
+        function toggleEmotion(emo) {
+            if (state.selectedEmotions.includes(emo)) {
+                state.selectedEmotions = state.selectedEmotions.filter(e => e !== emo);
+            } else {
+                state.selectedEmotions.push(emo);
+            }
+            renderSubEmotions();
+            updateBouquet();
+        }
+
+        function renderModality() {
+            const modes = [
+                { id: "Upright", label: "Upright", desc: "Classic Meaning" },
+                { id: "Inverted", label: "Inverted", desc: "Opposite Spirit" },
+                { id: "Left", label: "To Heart", desc: "From Giver" },
+                { id: "Right", label: "Extend", desc: "To Receiver" }
+            ];
+            const container = document.getElementById('modality-controls');
+            container.innerHTML = modes.map(m => `
+                <button onclick="setNuance('${m.id}')" id="mode-${m.id}" class="flex flex-col gap-6 p-8 rounded-[2rem] border-2 transition-all text-left ${state.nuance === m.id ? 'border-stone-900 bg-stone-900 text-stone-50 shadow-2xl' : 'border-white bg-white text-stone-500 shadow-md'}">
+                    <div class="text-sm font-black uppercase tracking-widest leading-none mb-2 font-sans">${m.label}</div>
+                    <div class="text-xs font-medium opacity-60 font-sans">${m.desc}</div>
+                </button>
+            `).join('');
+        }
+
+        function setNuance(n) {
+            state.nuance = n;
+            renderModality();
+            updateBouquet();
+        }
+
+        function updateBouquet() {
+            const empty = document.getElementById('empty-state');
+            const active = document.getElementById('active-state');
+            const field = document.getElementById('floral-field');
+            const synthesis = document.getElementById('synthesis-text');
+            const dict = document.getElementById('dictionary-entries');
+            const badge = document.getElementById('mode-badge');
+
+            if (state.selectedEmotions.length === 0) {
+                empty.classList.remove('hidden');
+                active.classList.add('hidden');
+                dict.innerHTML = '';
+                return;
+            }
+
+            empty.classList.add('hidden');
+            active.classList.remove('hidden');
+            badge.innerText = `Mode: ${state.nuance}`;
+
+            const bouquet = state.selectedEmotions.map(e => ({ emotion: e, ...FLORAL_DICTIONARY[e] }));
+            
+            // Render Visual Bouquet
+            field.innerHTML = bouquet.map((f, i) => `
+                <div class="animate-in zoom-in fade-in duration-700 flower-${state.nuance.toLowerCase()}" style="animation-delay: ${i * 100}ms">
+                    <div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-2xl">
+                        <img src="${f.image}" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Synthesis Text
+            const meanings = bouquet.map(f => state.nuance === 'Inverted' ? f.opposite.toLowerCase() : f.meaning.toLowerCase());
+            synthesis.innerText = `"A bouquet of ${bouquet.length} ${bouquet.length === 1 ? 'stem' : 'stems'} signifying ${meanings.join(', ')}."`;
+
+            // Render Cards
+            dict.innerHTML = bouquet.map(f => `
+                <div class="bg-white p-10 rounded-[2.5rem] border border-stone-200/60 shadow-xl flex flex-col gap-8">
+                    <div class="flex items-center justify-between">
+                        <div class="w-24 h-24 rounded-3xl overflow-hidden shadow-inner bg-stone-100">
+                            <img src="${f.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-stone-400 font-black uppercase tracking-widest font-sans mb-2">${f.emotion}</p>
+                            <p class="text-2xl font-bold text-stone-800">${f.name}</p>
+                        </div>
+                    </div>
+                    <div class="pt-6 border-t border-stone-100 flex justify-between">
+                        <div>
+                            <p class="text-[11px] font-black uppercase tracking-widest text-stone-400 font-sans">Meaning</p>
+                            <p class="text-stone-800 font-bold">${f.meaning}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[11px] font-black uppercase tracking-widest text-rose-400 font-sans">Opposite</p>
+                            <p class="text-rose-600 font-bold italic">${f.opposite}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
