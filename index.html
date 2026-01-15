@@ -165,11 +165,16 @@
             "Content": { name: "Daisy", meaning: "Innocence and Loyal Love", opposite: "Disillusionment", color: "#FEF9C3", image: "flower/daisy.jpg" },
             "Innocence": { name: "Daisy", meaning: "Innocence", opposite: "Corruption", color: "#FEF9C3", image: "flower/daisy.jpg" },
             "Optimistic": { name: "Flowering Almond", meaning: "Hope", opposite: "Despair", color: "#FCE7F3", image: "flower/flowering-almond.jpg" },
-            "Hope": { name: "Almond", meaning: "Hope", opposite: "Despair", color: "#FCE7F3", image: "flower/flowering-almond.jpg" },
+            "Hope": { name: "Snowdrop", meaning: "Hope", opposite: "Despair", color: "#F8FAFC", image: "flower/snowdrop.jpg" },
             "Peaceful": { name: "Crocus", meaning: "Youthful Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
             "Gladness": { name: "Crocus", meaning: "Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
             "Purity": { name: "White Rose", meaning: "Purity", opposite: "Corruption", color: "#F8FAFC", image: "flower/white-rose.jpg" },
             "Friendship": { name: "Arbor vitae", meaning: "Friendship", opposite: "Enmity", color: "#059669", image: "flower/arbor-vitae.jpg" },
+            "Elegance": { name: "Acacia Rose", meaning: "Elegance", opposite: "Vulgarity", color: "#EC4899", image: "flower/acacia-rose.jpg" },
+            "Temperance": { name: "Azalea", meaning: "Temperance", opposite: "Excess", color: "#EC4899", image: "flower/azalea.jpg" },
+            "Constancy": { name: "Bluebell", meaning: "Constancy", opposite: "Inconstancy", color: "#3B82F6", image: "flower/bluebell.jpg" },
+            "Fidelity": { name: "Ivy", meaning: "Fidelity", opposite: "Infidelity", color: "#059669", image: "flower/ivy.jpg" },
+            "Mental beauty": { name: "Clematis", meaning: "Mental Beauty", opposite: "Superficiality", color: "#A855F7", image: "flower/clematis.jpg" },
             "Childishness": { name: "Buttercup", meaning: "Childishness", opposite: "Maturity", color: "#FEF08A", image: "flower/buttercup.jpg" },
             "Playful": { name: "Yellow Rose", meaning: "Decrease of Love", opposite: "Deepening Affection", color: "#FEF08A", image: "flower/yellow-rose.jpg" },
             "Powerful": { name: "Cypress", meaning: "Strength in Sorrow", opposite: "Fragility", color: "#064E3B", image: "flower/cypress.jpg" },
@@ -198,11 +203,14 @@
             "Chaste": { name: "Acacia", meaning: "Chaste Love", opposite: "Impure Love", color: "#EAB308", image: "flower/yellow-acacia.jpg" },
             "Marriage": { name: "Myrtle", meaning: "Love in Marriage", opposite: "Divorce", color: "#059669", image: "flower/myrtle.jpg" },
             "Declaration of": { name: "Red Tulip", meaning: "Declaration of Love", opposite: "Concealment of Love", color: "#EF4444", image: "flower/red-tulip.jpg" },
+            "Eternal": { name: "Bay Leaf", meaning: "Eternal Love", opposite: "Temporary Love", color: "#14532D", image: "flower/bay-leaf.jpg" },
+            "Sympathy": { name: "Balm", meaning: "Sympathy", opposite: "Callousness", color: "#818CF8", image: "flower/balm.jpg" },
             "Sad": { name: "Purple Hyacinth", meaning: "Sorrow / I am sorry", opposite: "Celebration", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
             "I'm sorry": { name: "Purple Hyacinth", meaning: "I am sorry", opposite: "No Regret", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
             "Cruelty": { name: "Marigold", meaning: "Cruelty", opposite: "Kindness", color: "#F59E0B", image: "flower/marigold.jpg" },
             "Forsaken": { name: "Zephyr Flower", meaning: "Forsaken", opposite: "Cherished", color: "#64748B", image: "flower/zephyr-flower.jpg" },
             "Sickness": { name: "Zephyr Flower", meaning: "Sickness", opposite: "Health", color: "#64748B", image: "flower/zephyr-flower.jpg" },
+            "Miss friend": { name: "Zinnia", meaning: "Missing a Friend", opposite: "Friend Present", color: "#EC4899", image: "flower/zinnia.jpg" },
             "Lonely": { name: "Asphodel", meaning: "My regrets follow you to the grave", opposite: "New Beginnings", color: "#64748B", image: "flower/asphodel.jpg" },
             "Grieved": { name: "Aloe", meaning: "Grief", opposite: "Consolation", color: "#166534", image: "flower/aloe.jpg" },
             "Angry": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
@@ -227,9 +235,9 @@
         };
 
         const EMOTION_WHEEL = [
-            { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful", "Hope", "Innocence", "Gladness", "Purity", "Friendship", "Childishness"] },
-            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep", "Returned", "Passionate", "Loyal", "Secret", "Affection", "Generous", "Devoted", "Faithfulness", "True", "Don't forget me", "Slighted", "I love", "Unequalled", "First", "Decreased", "Chaste", "Marriage", "Declaration of"] },
-            { label: "Sadness", color: "sky-400", sub: ["Sad", "Lonely", "Grieved", "I'm sorry", "Cruelty", "Forsaken", "Sickness"] },
+            { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful", "Hope", "Innocence", "Gladness", "Purity", "Friendship", "Childishness", "Elegance", "Temperance", "Constancy", "Fidelity", "Mental beauty"] },
+            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep", "Returned", "Passionate", "Loyal", "Secret", "Affection", "Generous", "Devoted", "Faithfulness", "True", "Don't forget me", "Slighted", "I love", "Unequalled", "First", "Decreased", "Chaste", "Marriage", "Declaration of", "Eternal", "Sympathy"] },
+            { label: "Sadness", color: "sky-400", sub: ["Sad", "Lonely", "Grieved", "I'm sorry", "Cruelty", "Forsaken", "Sickness", "Miss friend"] },
             { label: "Anger", color: "rose-500", sub: ["Angry", "Jealousy", "Frustrated", "Hatred", "Heartlessness", "Disdain", "Ingratitude"] },
             { label: "Fear", color: "orange-400", sub: ["Scared", "Anxious", "Instability", "Distrust", "Indiscretion", "Timidity"] },
             { label: "Surprise", color: "cyan-400", sub: ["Amazed", "Surprised", "Fascination", "Ardor", "Afterthought", "Magic"] },
@@ -304,16 +312,46 @@
             }
         }
 
+        function lightenColor(hex, percent) {
+            // Remove # if present
+            hex = hex.replace('#', '');
+            // Convert to RGB
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            // Lighten by blending with white
+            const newR = Math.round(r + (255 - r) * percent);
+            const newG = Math.round(g + (255 - g) * percent);
+            const newB = Math.round(b + (255 - b) * percent);
+            // Convert back to hex
+            return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+        }
+
         function renderSubEmotions() {
             const cat = EMOTION_WHEEL.find(c => c.label === state.activeCategory);
             const list = document.getElementById('sub-emotion-list');
+            
+            // Get the category color
+            const colorMap = {
+                "emerald-400": "#34d399",
+                "amber-300": "#fcd34d",
+                "sky-400": "#38bdf8",
+                "rose-500": "#f43f5e",
+                "orange-400": "#fb923c",
+                "cyan-400": "#22d3ee"
+            };
+            const categoryColor = colorMap[cat.color] || "#6b7280";
+            const lighterColor = lightenColor(categoryColor, 0.85); // Lighten by 85%
+            
             list.innerHTML = cat.sub.map(sub => {
                 const flower = FLORAL_DICTIONARY[sub];
+                const isSelected = state.selectedEmotions.includes(sub);
                 // Use data attributes to avoid escaping issues with apostrophes
                 return `
                     <button 
                         data-emotion="${sub.replace(/"/g, '&quot;')}"
-                        class="emotion-btn px-8 py-4 rounded-full text-base font-sans font-bold transition-all border ${state.selectedEmotions.includes(sub) ? 'bg-stone-900 text-stone-50 border-stone-900 shadow-2xl scale-110' : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'}">
+                        class="emotion-btn px-8 py-4 rounded-full text-base font-sans font-bold transition-all border ${isSelected ? 'text-white border-white shadow-2xl scale-110' : 'text-stone-700 border-stone-300 hover:border-stone-400'}"
+                        style="background-color: ${isSelected ? categoryColor : lighterColor};">
                         ${sub}
                     </button>
                 `;
