@@ -27,6 +27,24 @@
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+        
+        .emotion-wheel-item {
+            position: absolute;
+            transform-origin: center;
+            transition: all 0.3s ease;
+        }
+        
+        .emotion-wheel-item:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            #emotion-wheel-container {
+                width: 280px !important;
+                height: 280px !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-stone-50 text-stone-900 selection:bg-rose-100 overflow-x-hidden">
@@ -71,7 +89,9 @@
                     <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold font-sans">1</div>
                     <h2 class="text-3xl font-bold text-stone-800">Identify Sentiment</h2>
                 </div>
-                <div id="emotion-categories" class="grid grid-cols-2 gap-5 mb-8"></div>
+                <div id="emotion-categories" class="relative w-full h-96 mb-8 flex items-center justify-center">
+                    <div class="relative w-80 h-80 mx-auto" id="emotion-wheel-container"></div>
+                </div>
                 <div id="sub-emotions" class="hidden bg-white p-8 rounded-3xl border border-stone-200 shadow-sm animate-in fade-in relative">
                     <p class="text-[11px] uppercase tracking-[0.3em] text-stone-400 mb-8 font-black font-sans">Select Victorian Specifics</p>
                     <div id="sub-emotion-list" class="flex flex-wrap gap-4"></div>
@@ -162,27 +182,48 @@
             "Returned": { name: "Ambrosia", meaning: "Love Returned", opposite: "Unrequited Love", color: "#F59E0B", image: "flower/ambrosia.jpg" },
             "Loyal": { name: "Daisy", meaning: "Loyal Love", opposite: "Disloyalty", color: "#FEF9C3", image: "flower/daisy.jpg" },
             "Passionate": { name: "Red Rose", meaning: "Passionate Love", opposite: "Indifference", color: "#991B1B", image: "flower/red-rose.jpg" },
+            "Secret": { name: "Yellow Acacia", meaning: "Secret Love", opposite: "Open Affection", color: "#EAB308", image: "flower/yellow-acacia.jpg" },
+            "Affection": { name: "Gillyflower", meaning: "Affection", opposite: "Indifference", color: "#EC4899", image: "flower/gillyflower.jpg" },
+            "Generous": { name: "Honeysuckle", meaning: "Generous Affection", opposite: "Selfishness", color: "#F59E0B", image: "flower/honeysuckle.jpg" },
+            "Devoted": { name: "Honeysuckle", meaning: "Devoted Affection", opposite: "Indifference", color: "#F59E0B", image: "flower/honeysuckle.jpg" },
+            "Faithfulness": { name: "Heliotrope", meaning: "Faithfulness", opposite: "Infidelity", color: "#A855F7", image: "flower/heliotrope.jpg" },
+            "True": { name: "Forget-Me-Not", meaning: "True Love", opposite: "False Love", color: "#3B82F6", image: "flower/forget-me-not.jpg" },
+            "Don't forget me": { name: "Forget-Me-Not", meaning: "Don't forget me", opposite: "Forgetfulness", color: "#3B82F6", image: "flower/forget-me-not.jpg" },
             "Sad": { name: "Purple Hyacinth", meaning: "Sorrow / I am sorry", opposite: "Celebration", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
+            "I'm sorry": { name: "Purple Hyacinth", meaning: "I am sorry", opposite: "No Regret", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
+            "Cruelty": { name: "Marigold", meaning: "Cruelty", opposite: "Kindness", color: "#F59E0B", image: "flower/marigold.jpg" },
+            "Forsaken": { name: "Zephyr Flower", meaning: "Forsaken", opposite: "Cherished", color: "#64748B", image: "flower/zephyr-flower.jpg" },
+            "Sickness": { name: "Zephyr Flower", meaning: "Sickness", opposite: "Health", color: "#64748B", image: "flower/zephyr-flower.jpg" },
             "Lonely": { name: "Asphodel", meaning: "My regrets follow you to the grave", opposite: "New Beginnings", color: "#64748B", image: "flower/asphodel.jpg" },
             "Grieved": { name: "Aloe", meaning: "Grief", opposite: "Consolation", color: "#166534", image: "flower/aloe.jpg" },
             "Angry": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
             "Hatred": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
-            "Jealous": { name: "Yellow Rose", meaning: "Jealousy", opposite: "Trust", color: "#EAB308", image: "flower/yellow-rose.jpg" },
+            "Jealousy": { name: "Yellow Rose", meaning: "Jealousy", opposite: "Trust", color: "#EAB308", image: "flower/yellow-rose.jpg" },
             "Frustrated": { name: "Hydrangea", meaning: "Heartlessness", opposite: "Warmth", color: "#BFDBFE", image: "flower/hydrangea.jpg" },
+            "Heartlessness": { name: "Hydrangea", meaning: "Heartlessness", opposite: "Warmth", color: "#BFDBFE", image: "flower/hydrangea.jpg" },
+            "Disdain": { name: "Yellow Carnation", meaning: "Disdain", opposite: "Respect", color: "#EAB308", image: "flower/yellow-carnation.jpg" },
+            "Ingratitude": { name: "Buttercup", meaning: "Ingratitude", opposite: "Gratitude", color: "#FEF08A", image: "flower/buttercup.jpg" },
             "Scared": { name: "Lavender", meaning: "Distrust", opposite: "Confidence", color: "#C4B5FD", image: "flower/lavender.jpg" },
+            "Distrust": { name: "Lavender", meaning: "Distrust", opposite: "Confidence", color: "#C4B5FD", image: "flower/lavender.jpg" },
+            "Indiscretion": { name: "Common Almond", meaning: "Indiscretion", opposite: "Discretion", color: "#FCE7F3", image: "flower/common-almond.jpg" },
+            "Timidity": { name: "Amaryllis", meaning: "Timidity", opposite: "Boldness", color: "#EF4444", image: "flower/amaryllis.jpg" },
             "Anxious": { name: "Red Columbine", meaning: "Anxiety", opposite: "Serenity", color: "#F87171", image: "flower/red-columbine.jpg" },
+            "Instability": { name: "Dhalia", meaning: "Instability", opposite: "Stability", color: "#FB923C", image: "flower/dhalia.jpg" },
             "Amazed": { name: "Angelica", meaning: "Inspiration", opposite: "Dullness", color: "#D1FAE5", image: "flower/angelica.jpg" },
             "Surprised": { name: "Truffle", meaning: "Surprise", opposite: "Expectation", color: "#78350F", image: "flower/truffle.jpg" },
-            "Fascination": { name: "Fern", meaning: "Fascination", opposite: "Boredom", color: "#059669", image: "flower/fern.jpg" }
+            "Fascination": { name: "Fern", meaning: "Fascination", opposite: "Boredom", color: "#059669", image: "flower/fern.jpg" },
+            "Magic": { name: "Fern", meaning: "Magic", opposite: "Mundanity", color: "#059669", image: "flower/fern.jpg" },
+            "Ardor": { name: "Arum", meaning: "Ardor", opposite: "Apathy", color: "#EF4444", image: "flower/arum.jpg" },
+            "Afterthought": { name: "China Aster", meaning: "Afterthought", opposite: "Forethought", color: "#A855F7", image: "flower/china-aster.jpg" }
         };
 
         const EMOTION_WHEEL = [
             { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful", "Hope", "Innocence", "Gladness", "Purity", "Friendship"] },
-            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep", "Returned", "Passionate", "Loyal"] },
-            { label: "Sadness", color: "sky-400", sub: ["Sad", "Lonely", "Grieved"] },
-            { label: "Anger", color: "rose-500", sub: ["Angry", "Jealous", "Frustrated", "Hatred"] },
-            { label: "Fear", color: "orange-400", sub: ["Scared", "Anxious"] },
-            { label: "Surprise", color: "cyan-400", sub: ["Amazed", "Surprised", "Fascination"] },
+            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep", "Returned", "Passionate", "Loyal", "Secret", "Affection", "Generous", "Devoted", "Faithfulness", "True", "Don't forget me"] },
+            { label: "Sadness", color: "sky-400", sub: ["Sad", "Lonely", "Grieved", "I'm sorry", "Cruelty", "Forsaken", "Sickness"] },
+            { label: "Anger", color: "rose-500", sub: ["Angry", "Jealousy", "Frustrated", "Hatred", "Heartlessness", "Disdain", "Ingratitude"] },
+            { label: "Fear", color: "orange-400", sub: ["Scared", "Anxious", "Instability", "Distrust", "Indiscretion", "Timidity"] },
+            { label: "Surprise", color: "cyan-400", sub: ["Amazed", "Surprised", "Fascination", "Ardor", "Afterthought", "Magic"] },
         ];
 
         let state = {
@@ -203,26 +244,47 @@
         }
 
         function renderCategories() {
-            const container = document.getElementById('emotion-categories');
-            container.innerHTML = EMOTION_WHEEL.map(cat => `
-                <button onclick="selectCategory('${cat.label}')" id="cat-${cat.label}" class="p-6 rounded-2xl transition-all border-2 text-left font-bold font-sans text-lg bg-white border-stone-200 hover:border-stone-400 text-stone-700">
-                    ${cat.label}
-                </button>
-            `).join('');
+            const container = document.getElementById('emotion-wheel-container');
+            const radius = 140; // Distance from center
+            const centerX = 160; // Half of 320px container width
+            const centerY = 160; // Half of 320px container height
+            const angleStep = (2 * Math.PI) / EMOTION_WHEEL.length; // 60 degrees in radians
+            
+            // Color mapping for Tailwind classes
+            const colorMap = {
+                "emerald-400": "#34d399",
+                "amber-300": "#fcd34d",
+                "sky-400": "#38bdf8",
+                "rose-500": "#f43f5e",
+                "orange-400": "#fb923c",
+                "cyan-400": "#22d3ee"
+            };
+            
+            container.innerHTML = EMOTION_WHEEL.map((cat, index) => {
+                const angle = index * angleStep - Math.PI / 2; // Start from top (-90 degrees)
+                const x = centerX + radius * Math.cos(angle) - 64; // Offset by half button width (128/2)
+                const y = centerY + radius * Math.sin(angle) - 64; // Offset by half button height (128/2)
+                const bgColor = colorMap[cat.color] || "#6b7280";
+                const isActive = state.activeCategory === cat.label;
+                
+                return `
+                    <button 
+                        onclick="selectCategory('${cat.label}')" 
+                        id="cat-${cat.label}" 
+                        class="emotion-wheel-item p-6 rounded-full transition-all border-4 font-bold font-sans text-base border-white hover:border-white hover:shadow-2xl text-white w-32 h-32 flex items-center justify-center ${isActive ? 'ring-8 ring-stone-100 scale-110' : ''}"
+                        style="left: ${x}px; top: ${y}px; background-color: ${bgColor};"
+                    >
+                        ${cat.label}
+                    </button>
+                `;
+            }).join('');
         }
 
         function selectCategory(label) {
             state.activeCategory = state.activeCategory === label ? null : label;
             
-            // UI Update for buttons
-            EMOTION_WHEEL.forEach(cat => {
-                const btn = document.getElementById(`cat-${cat.label}`);
-                if (state.activeCategory === cat.label) {
-                    btn.className = `p-6 rounded-2xl transition-all border-2 text-left font-bold font-sans text-lg bg-${cat.color} text-white border-transparent shadow-xl ring-8 ring-stone-100`;
-                } else {
-                    btn.className = `p-6 rounded-2xl transition-all border-2 text-left font-bold font-sans text-lg bg-white border-stone-200 hover:border-stone-400 text-stone-700`;
-                }
-            });
+            // Re-render categories to update active state
+            renderCategories();
 
             const subContainer = document.getElementById('sub-emotions');
             if (state.activeCategory) {
@@ -238,16 +300,23 @@
             const list = document.getElementById('sub-emotion-list');
             list.innerHTML = cat.sub.map(sub => {
                 const flower = FLORAL_DICTIONARY[sub];
+                // Use data attributes to avoid escaping issues with apostrophes
                 return `
                     <button 
-                        onclick="toggleEmotion('${sub}')" 
-                        onmouseenter="showFlowerPreview(event, '${sub}')" 
-                        onmouseleave="hideFlowerPreview()"
-                        class="px-8 py-4 rounded-full text-base font-sans font-bold transition-all border ${state.selectedEmotions.includes(sub) ? 'bg-stone-900 text-stone-50 border-stone-900 shadow-2xl scale-110' : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'}">
+                        data-emotion="${sub.replace(/"/g, '&quot;')}"
+                        class="emotion-btn px-8 py-4 rounded-full text-base font-sans font-bold transition-all border ${state.selectedEmotions.includes(sub) ? 'bg-stone-900 text-stone-50 border-stone-900 shadow-2xl scale-110' : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'}">
                         ${sub}
                     </button>
                 `;
             }).join('');
+            
+            // Add event listeners to all emotion buttons
+            list.querySelectorAll('.emotion-btn').forEach(btn => {
+                const emotion = btn.getAttribute('data-emotion');
+                btn.addEventListener('click', () => toggleEmotion(emotion));
+                btn.addEventListener('mouseenter', (e) => showFlowerPreview(e, emotion));
+                btn.addEventListener('mouseleave', hideFlowerPreview);
+            });
         }
 
         function showFlowerPreview(event, emotion) {

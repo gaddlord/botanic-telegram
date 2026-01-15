@@ -26,26 +26,27 @@ Bittersweet	Truth
 Bluebell	Constancy; Humility
 Borage	Bluntness
 Broom	Humility; Neatness
-Buttercup	Ingratitude; Childishness
+Buttercup	Childishness
 Camellia (White)	Perfected loveliness
 Canterbury Bell	Acknowledgment
 Carnation (Deep Red)	Alas! for my poor heart
 Carnation (Striped)	Refusal
-Carnation (Yellow)	Disdain
+
 Cedar of Lebanon	Incorruptible
 Cherry Tree	Good education
 Chrysanthemum (Red)	I love
 Chrysanthemum (Yellow)	Slighted love
 Chrysanthemum (White)	Truth
 Clematis	Mental beauty
-Crocus	Youthful gladness
+
 Daffodil	Regard; Unequalled love
-Dahlia	Instability
-Daisy	Innocence; Loyal love
+
 Dandelion	Oracle; Rustic oracle
+
 Eglantine (Sweet Brier)	Poetry; I wound to heal
-Fern	Fascination; Magic
+
 Forget-Me-Not	True love; Forget me not
+
 Foxglove	Insincerity
 Geranium (Wild)	Steadfast piety
 Gillyflower	Bonds of affection
@@ -58,8 +59,9 @@ Hydrangea	A boaster; Heartlessness
 Iris	Message
 Ivy	Fidelity; Friendship
 Jasmine (White)	Amiability
-Lavender	Distrust
+
 Lilac (Purple)	First emotions of love
+
 Lily (White)	Purity; Sweetness
 Lily of the Valley	Return of happiness
 Marigold	Grief; Cruelty
@@ -71,7 +73,7 @@ Pansy	Thoughts
 Peony	Shame; Bashfulness
 Poppy (Red)	Consolation
 Primrose	Early youth
-Rose (Red)	Love
+
 Rose (White)	I am worthy of you
 Rose (Yellow)	Jealousy; Decrease of love
 Rosemary	Remembrance
