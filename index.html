@@ -54,9 +54,6 @@
                 "By the simple language of flowers, the most delicate and refined sentiments may be expressed."
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <button onclick="document.getElementById('workspace').scrollIntoView({behavior:'smooth'})" class="group px-12 py-6 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-all shadow-2xl font-sans font-bold uppercase tracking-widest text-sm flex items-center gap-4">
-                    Arrange a Bouquet
-                </button>
                 <button onclick="toggleModal()" class="px-10 py-6 bg-stone-900 text-stone-50 rounded-full hover:bg-stone-800 transition-all font-sans font-bold uppercase tracking-widest text-sm flex items-center gap-4">
                     Consult Feelings
                 </button>
@@ -146,8 +143,13 @@
         const FLORAL_DICTIONARY = {
             "Joyful": { name: "Lily of the Valley", meaning: "Return of Happiness", opposite: "Lingering Sadness", color: "#F8FAFC", image: "flower/lily-of-the-valley.jpg" },
             "Content": { name: "Daisy", meaning: "Innocence and Loyal Love", opposite: "Disillusionment", color: "#FEF9C3", image: "flower/daisy.jpg" },
+            "Innocence": { name: "Daisy", meaning: "Innocence", opposite: "Corruption", color: "#FEF9C3", image: "flower/daisy.jpg" },
             "Optimistic": { name: "Flowering Almond", meaning: "Hope", opposite: "Despair", color: "#FCE7F3", image: "flower/flowering-almond.jpg" },
+            "Hope": { name: "Almond", meaning: "Hope", opposite: "Despair", color: "#FCE7F3", image: "flower/flowering-almond.jpg" },
             "Peaceful": { name: "Crocus", meaning: "Youthful Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
+            "Gladness": { name: "Crocus", meaning: "Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
+            "Purity": { name: "White Rose", meaning: "Purity", opposite: "Corruption", color: "#F8FAFC", image: "flower/white-rose.jpg" },
+            "Friendship": { name: "Arbor vitae", meaning: "Friendship", opposite: "Enmity", color: "#059669", image: "flower/arbor-vitae.jpg" },
             "Playful": { name: "Yellow Rose", meaning: "Decrease of Love", opposite: "Deepening Affection", color: "#FEF08A", image: "flower/yellow-rose.jpg" },
             "Powerful": { name: "Cypress", meaning: "Strength in Sorrow", opposite: "Fragility", color: "#064E3B", image: "flower/cypress.jpg" },
             "Triumphant": { name: "Bay Leaf", meaning: "I change but in death", opposite: "Fickleness", color: "#14532D", image: "flower/bay-leaf.jpg" },
@@ -157,25 +159,30 @@
             "Compassionate": { name: "Balm", meaning: "Sympathy", opposite: "Callousness", color: "#818CF8", image: "flower/balm.jpg" },
             "Grateful": { name: "Bellflower", meaning: "Gratitude", opposite: "Ingratitude", color: "#6366F1", image: "flower/bellflower.jpg" },
             "Deep": { name: "Red Rose", meaning: "Deep Love", opposite: "Animosity", color: "#991B1B", image: "flower/red-rose.jpg" },
+            "Returned": { name: "Ambrosia", meaning: "Love Returned", opposite: "Unrequited Love", color: "#F59E0B", image: "flower/ambrosia.jpg" },
+            "Loyal": { name: "Daisy", meaning: "Loyal Love", opposite: "Disloyalty", color: "#FEF9C3", image: "flower/daisy.jpg" },
+            "Passionate": { name: "Red Rose", meaning: "Passionate Love", opposite: "Indifference", color: "#991B1B", image: "flower/red-rose.jpg" },
             "Sad": { name: "Purple Hyacinth", meaning: "Sorrow / I am sorry", opposite: "Celebration", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
             "Lonely": { name: "Asphodel", meaning: "My regrets follow you to the grave", opposite: "New Beginnings", color: "#64748B", image: "flower/asphodel.jpg" },
             "Grieved": { name: "Aloe", meaning: "Grief", opposite: "Consolation", color: "#166534", image: "flower/aloe.jpg" },
             "Angry": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
+            "Hatred": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
             "Jealous": { name: "Yellow Rose", meaning: "Jealousy", opposite: "Trust", color: "#EAB308", image: "flower/yellow-rose.jpg" },
             "Frustrated": { name: "Hydrangea", meaning: "Heartlessness", opposite: "Warmth", color: "#BFDBFE", image: "flower/hydrangea.jpg" },
             "Scared": { name: "Lavender", meaning: "Distrust", opposite: "Confidence", color: "#C4B5FD", image: "flower/lavender.jpg" },
             "Anxious": { name: "Red Columbine", meaning: "Anxiety", opposite: "Serenity", color: "#F87171", image: "flower/red-columbine.jpg" },
             "Amazed": { name: "Angelica", meaning: "Inspiration", opposite: "Dullness", color: "#D1FAE5", image: "flower/angelica.jpg" },
-            "Surprised": { name: "Truffle", meaning: "Surprise", opposite: "Expectation", color: "#78350F", image: "flower/truffle.jpg" }
+            "Surprised": { name: "Truffle", meaning: "Surprise", opposite: "Expectation", color: "#78350F", image: "flower/truffle.jpg" },
+            "Fascination": { name: "Fern", meaning: "Fascination", opposite: "Boredom", color: "#059669", image: "flower/fern.jpg" }
         };
 
         const EMOTION_WHEEL = [
-            { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful"] },
-            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep"] },
+            { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful", "Hope", "Innocence", "Gladness", "Purity", "Friendship"] },
+            { label: "Love", color: "amber-300", sub: ["Enchanted", "Sentimental", "Compassionate", "Grateful", "Deep", "Returned", "Passionate", "Loyal"] },
             { label: "Sadness", color: "sky-400", sub: ["Sad", "Lonely", "Grieved"] },
-            { label: "Anger", color: "rose-500", sub: ["Angry", "Jealous", "Frustrated"] },
+            { label: "Anger", color: "rose-500", sub: ["Angry", "Jealous", "Frustrated", "Hatred"] },
             { label: "Fear", color: "orange-400", sub: ["Scared", "Anxious"] },
-            { label: "Surprise", color: "cyan-400", sub: ["Amazed", "Surprised"] },
+            { label: "Surprise", color: "cyan-400", sub: ["Amazed", "Surprised", "Fascination"] },
         ];
 
         let state = {
@@ -305,9 +312,9 @@
             ];
             const container = document.getElementById('modality-controls');
             container.innerHTML = modes.map(m => `
-                <button onclick="setNuance('${m.id}')" id="mode-${m.id}" class="flex flex-col gap-6 p-8 rounded-[2rem] border-2 transition-all text-left ${state.nuance === m.id ? 'border-stone-900 bg-stone-900 text-stone-50 shadow-2xl' : 'border-white bg-white text-stone-500 shadow-md'}">
-                    <div class="text-sm font-black uppercase tracking-widest leading-none mb-2 font-sans">${m.label}</div>
-                    <div class="text-xs font-medium opacity-60 font-sans">${m.desc}</div>
+                <button onclick="setNuance('${m.id}')" id="mode-${m.id}" class="flex flex-col gap-4 p-6 rounded-2xl border-2 transition-all text-left ${state.nuance === m.id ? 'border-amber-400 bg-amber-500/20 text-amber-200 shadow-2xl' : 'border-white/20 bg-white/5 text-stone-300 hover:bg-white/10 hover:border-white/30'}">
+                    <div class="text-sm font-black uppercase tracking-widest leading-none mb-1 font-sans">${m.label}</div>
+                    <div class="text-xs font-medium opacity-70 font-sans">${m.desc}</div>
                 </button>
             `).join('');
         }
