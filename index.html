@@ -535,6 +535,21 @@
             return translations[currentLanguage][key] || translations.EN[key] || key;
         }
 
+        // Translate emotion key (for sentiment buttons)
+        function translateEmotion(emotionKey) {
+            // First check if there's a direct translation in the translations object
+            if (translations[currentLanguage] && translations[currentLanguage][emotionKey]) {
+                return translations[currentLanguage][emotionKey];
+            }
+            // Fallback: use the flower name from translated dictionary
+            const floralDict = getFloralDict();
+            if (floralDict[emotionKey]) {
+                return floralDict[emotionKey].name;
+            }
+            // Final fallback: return the key itself
+            return emotionKey;
+        }
+
         // Get translated floral dictionary based on current language
         function getFloralDict() {
             return typeof getFloralDictionary === 'function' ? getFloralDictionary(currentLanguage) : FLORAL_DICTIONARY;
@@ -671,13 +686,14 @@
             list.innerHTML = cat.sub.map(sub => {
                 const flower = floralDict[sub];
                 const isSelected = state.selectedEmotions.includes(sub);
+                const translatedLabel = translateEmotion(sub);
                 // Use data attributes to avoid escaping issues with apostrophes
                 return `
                     <button 
                         data-emotion="${sub.replace(/"/g, '&quot;')}"
                         class="emotion-btn px-8 py-4 rounded-full text-base font-sans font-bold transition-all border ${isSelected ? 'text-white border-white shadow-2xl scale-110' : 'text-stone-700 border-stone-300 hover:border-stone-400'}"
                         style="background-color: ${isSelected ? categoryColor : lighterColor};">
-                        ${sub}
+                        ${translatedLabel}
                     </button>
                 `;
             }).join('');
