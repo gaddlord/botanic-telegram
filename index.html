@@ -58,7 +58,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
         <div class="w-full h-full overflow-auto flex items-center justify-center p-4">
-            <img src="https://www.visualcapitalist.com/wp-content/uploads/2021/04/guide-to-emotions-motion-wheel.jpg" alt="Emotion Wheel" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
+            <img src="emotions-wheel.jpg" alt="Emotion Wheel" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl">
         </div>
     </div>
 
@@ -68,15 +68,15 @@
         <!-- Language Selector -->
         <div class="absolute top-4 right-4 z-20">
             <select id="language-selector" onchange="changeLanguage(this.value)" class="px-4 py-2 bg-white border border-stone-300 rounded-full text-sm font-sans font-bold text-stone-800 hover:bg-stone-50 transition-all cursor-pointer">
-                <option value="EN">EN</option>
-                <option value="ES">ES</option>
-                <option value="GE">GE</option>
-                <option value="FR">FR</option>
-                <option value="PL">PL</option>
-                <option value="HI">HI</option>
-                <option value="BN">BN</option>
-                <option value="MR">MR</option>
-                <option value="TE">TE</option>
+                <option value="EN">English</option>
+                <option value="ES">Español</option>
+                <option value="GE">Deutsch</option>
+                <option value="FR">Français</option>
+                <option value="PL">Polski</option>
+                <option value="HI">हिंदी भाषा</option>
+                <option value="BN">বাংলা</option>
+                <option value="MR">मराठी</option>
+                <option value="TE">తెలుగు</option>
             </select>
         </div>
         <div class="max-w-4xl mx-auto relative z-10">
@@ -180,6 +180,7 @@
     </div>
     <!-- End Main Application -->
 
+    <script src="floral-data.js"></script>
     <script>
         // Translation system
         let currentLanguage = localStorage.getItem('language') || 'EN';
@@ -506,10 +507,11 @@
             currentLanguage = lang;
             localStorage.setItem('language', lang);
             updateTranslations();
-            // Re-render dynamic content
+            // Re-render dynamic content with new language
             if (typeof renderCategories === 'function') renderCategories();
             if (typeof renderModality === 'function') renderModality();
             if (typeof updateBouquet === 'function') updateBouquet();
+            if (typeof renderSubEmotions === 'function' && state.activeCategory) renderSubEmotions();
         }
 
         function updateTranslations() {
@@ -533,116 +535,10 @@
             return translations[currentLanguage][key] || translations.EN[key] || key;
         }
 
-        const FLORAL_DICTIONARY = {
-            "Joyful": { name: "Lily of the Valley", meaning: "Return of Happiness", opposite: "Lingering Sadness", color: "#F8FAFC", image: "flower/lily-of-the-valley.jpg" },
-            "Content": { name: "Daisy", meaning: "Innocence and Loyal Love", opposite: "Disillusionment", color: "#FEF9C3", image: "flower/daisy.jpg" },
-            "Innocence": { name: "Daisy", meaning: "Innocence", opposite: "Corruption", color: "#FEF9C3", image: "flower/daisy.jpg" },
-            "Optimistic": { name: "Flowering Almond", meaning: "Hope", opposite: "Despair", color: "#FCE7F3", image: "flower/flowering-almond.jpg" },
-            "Hope": { name: "Snowdrop", meaning: "Hope", opposite: "Despair", color: "#F8FAFC", image: "flower/snowdrop.jpg" },
-            "Peaceful": { name: "Crocus", meaning: "Youthful Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
-            "Gladness": { name: "Crocus", meaning: "Gladness", opposite: "Melancholy", color: "#EDE9FE", image: "flower/crocus.jpg" },
-            "Purity": { name: "Lily (White)", meaning: "Purity", opposite: "Corruption", color: "#F8FAFC", image: "flower/lily-white.jpg" },
-            "Friendship": { name: "Ivy", meaning: "Friendship", opposite: "Enmity", color: "#059669", image: "flower/ivy.jpg" },
-            "Elegance": { name: "Acacia Rose", meaning: "Elegance", opposite: "Vulgarity", color: "#EC4899", image: "flower/acacia-rose.jpg" },
-            "Temperance": { name: "Azalea", meaning: "Temperance", opposite: "Excess", color: "#EC4899", image: "flower/azalea.jpg" },
-            "Constancy": { name: "Bluebell", meaning: "Constancy", opposite: "Inconstancy", color: "#3B82F6", image: "flower/bluebell.jpg" },
-            "Fidelity": { name: "Wallflower", meaning: "Fidelity in adversity", opposite: "Infidelity", color: "#F59E0B", image: "flower/wallflower.jpg" },
-            "Mental beauty": { name: "Clematis", meaning: "Mental Beauty", opposite: "Superficiality", color: "#A855F7", image: "flower/clematis.jpg" },
-            "Preference": { name: "Apple Blossom", meaning: "Preference", opposite: "Indifference", color: "#FCE7F3", image: "flower/apple-blossom.jpg" },
-            "Amiability": { name: "Jasmine (White)", meaning: "Amiability", opposite: "Hostility", color: "#F8FAFC", image: "flower/jasmine-white.jpg" },
-            "Humility": { name: "Bluebell", meaning: "Humility", opposite: "Arrogance", color: "#3B82F6", image: "flower/bluebell.jpg" },
-            "Incorruptible": { name: "Cedar of Lebanon", meaning: "Incorruptible", opposite: "Corruption", color: "#064E3B", image: "flower/cedar-of-lebanon.jpg" },
-            "Truth": { name: "Bittersweet", meaning: "Truth", opposite: "Falsehood", color: "#F97316", image: "flower/bittersweet.jpg" },
-            "Loveliness": { name: "Camellia (White)", meaning: "Loveliness", opposite: "Ugliness", color: "#F8FAFC", image: "flower/camellia-white.jpg" },
-            "Acknowledgment": { name: "Canterbury Bell", meaning: "Acknowledgment", opposite: "Ignorance", color: "#A855F7", image: "flower/canterbury-bell.jpg" },
-            "Constant": { name: "Hyacinth (Blue)", meaning: "Constancy", opposite: "Inconstancy", color: "#3B82F6", image: "flower/hyacinth-blue.jpg" },
-            "I am worthy": { name: "Rose (White)", meaning: "I am worthy of you", opposite: "Unworthiness", color: "#F8FAFC", image: "flower/white-rose.jpg" },
-            "Celibacy": { name: "Bachelor's Button", meaning: "Celibacy", opposite: "Marriage", color: "#3B82F6", image: "flower/bachelors-button.jpg" },
-            "Steadfast piety": { name: "Geranium (Wild)", meaning: "Steadfast Piety", opposite: "Irreverence", color: "#EC4899", image: "flower/geranium-wild.jpg" },
-            "Neatness": { name: "Broom", meaning: "Neatness", opposite: "Disorder", color: "#FEF08A", image: "flower/broom.jpg" },
-            "Modesty": { name: "Violet (White)", meaning: "Modesty", opposite: "Immodesty", color: "#F8FAFC", image: "flower/violet-white.jpg" },
-            "Youthfulness": { name: "Primrose", meaning: "Youthfulness", opposite: "Maturity", color: "#FEF08A", image: "flower/primrose.jpg" },
-            "Sweetness": { name: "Lily (White)", meaning: "Sweetness", opposite: "Bitterness", color: "#F8FAFC", image: "flower/lily-white.jpg" },
-            "Candor": { name: "Violet (White)", meaning: "Candor", opposite: "Deceit", color: "#F8FAFC", image: "flower/violet-white.jpg" },
-            "Childishness": { name: "Buttercup", meaning: "Childishness", opposite: "Maturity", color: "#FEF08A", image: "flower/buttercup.jpg" },
-            "Playful": { name: "Yellow Rose", meaning: "Decrease of Love", opposite: "Deepening Affection", color: "#FEF08A", image: "flower/yellow-rose.jpg" },
-            "Powerful": { name: "Cypress", meaning: "Strength in Sorrow", opposite: "Fragility", color: "#064E3B", image: "flower/cypress.jpg" },
-            "Triumphant": { name: "Bay Leaf", meaning: "I change but in death", opposite: "Fickleness", color: "#14532D", image: "flower/bay-leaf.jpg" },
-            "Proud": { name: "Amaryllis", meaning: "Splendid Beauty / Pride", opposite: "Humility", color: "#EF4444", image: "flower/amaryllis.jpg" },
-            "Enchanted": { name: "Fern", meaning: "Fascination / Magic", opposite: "Boredom", color: "#059669", image: "flower/fern.jpg" },
-            "Sentimental": { name: "Purple Lilac", meaning: "First Emotions of Love", opposite: "Indifference", color: "#C084FC", image: "flower/purple-lilac.jpg" },
-            "Compassionate": { name: "Balm", meaning: "Sympathy", opposite: "Callousness", color: "#818CF8", image: "flower/balm.jpg" },
-            "Grateful": { name: "Bellflower", meaning: "Gratitude", opposite: "Ingratitude", color: "#6366F1", image: "flower/bellflower.jpg" },
-            "Deep": { name: "Red Rose", meaning: "Deep Love", opposite: "Animosity", color: "#991B1B", image: "flower/red-rose.jpg" },
-            "Returned": { name: "Ambrosia", meaning: "Love Returned", opposite: "Unrequited Love", color: "#F59E0B", image: "flower/ambrosia.jpg" },
-            "Loyal": { name: "Daisy", meaning: "Loyal Love", opposite: "Disloyalty", color: "#FEF9C3", image: "flower/daisy.jpg" },
-            "Passionate": { name: "Red Rose", meaning: "Passionate Love", opposite: "Indifference", color: "#991B1B", image: "flower/red-rose.jpg" },
-            "Secret": { name: "Yellow Acacia", meaning: "Secret Love", opposite: "Open Affection", color: "#EAB308", image: "flower/yellow-acacia.jpg" },
-            "Affection": { name: "Gillyflower", meaning: "Affection", opposite: "Indifference", color: "#EC4899", image: "flower/gillyflower.jpg" },
-            "Generous": { name: "Honeysuckle", meaning: "Generous Affection", opposite: "Selfishness", color: "#F59E0B", image: "flower/honeysuckle.jpg" },
-            "Devoted": { name: "Honeysuckle", meaning: "Devoted Affection", opposite: "Indifference", color: "#F59E0B", image: "flower/honeysuckle.jpg" },
-            "Faithfulness": { name: "Heliotrope", meaning: "Faithfulness", opposite: "Infidelity", color: "#A855F7", image: "flower/heliotrope.jpg" },
-            "True": { name: "Forget-Me-Not", meaning: "True Love", opposite: "False Love", color: "#3B82F6", image: "flower/forget-me-not.jpg" },
-            "Don't forget me": { name: "Forget-Me-Not", meaning: "Don't forget me", opposite: "Forgetfulness", color: "#3B82F6", image: "flower/forget-me-not.jpg" },
-            "Slighted": { name: "Chrysanthemum (Yellow)", meaning: "Slighted Love", opposite: "Esteemed Love", color: "#EAB308", image: "flower/chrysanthemum-yellow.jpg" },
-            "I love": { name: "Chrysanthemum (Red)", meaning: "I love", opposite: "I don't love", color: "#EF4444", image: "flower/chrysanthemum-red.jpg" },
-            "Unequalled": { name: "Daffodil", meaning: "Unequalled Love", opposite: "Common Love", color: "#FEF08A", image: "flower/daffodil.jpg" },
-            "First": { name: "Purple Lilac", meaning: "First Love", opposite: "Last Love", color: "#C084FC", image: "flower/purple-lilac.jpg" },
-            "Decreased": { name: "Yellow Rose", meaning: "Decreased Love", opposite: "Deepening Love", color: "#EAB308", image: "flower/yellow-rose.jpg" },
-            "Chaste": { name: "Acacia", meaning: "Chaste Love", opposite: "Impure Love", color: "#EAB308", image: "flower/yellow-acacia.jpg" },
-            "Marriage": { name: "Myrtle", meaning: "Love in Marriage", opposite: "Divorce", color: "#059669", image: "flower/myrtle.jpg" },
-            "Declaration of": { name: "Red Tulip", meaning: "Declaration of Love", opposite: "Concealment of Love", color: "#EF4444", image: "flower/red-tulip.jpg" },
-            "Eternal": { name: "Bay Leaf", meaning: "Eternal Love", opposite: "Temporary Love", color: "#14532D", image: "flower/bay-leaf.jpg" },
-            "Sympathy": { name: "Balm", meaning: "Sympathy", opposite: "Callousness", color: "#818CF8", image: "flower/balm.jpg" },
-            "Sad": { name: "Purple Hyacinth", meaning: "Sorrow / I am sorry", opposite: "Celebration", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
-            "I'm sorry": { name: "Purple Hyacinth", meaning: "I am sorry", opposite: "No Regret", color: "#6D28D9", image: "flower/purple-hyacinth.jpg" },
-            "Cruelty": { name: "Marigold", meaning: "Cruelty", opposite: "Kindness", color: "#F59E0B", image: "flower/marigold.jpg" },
-            "Forsaken": { name: "Zephyr Flower", meaning: "Forsaken", opposite: "Cherished", color: "#64748B", image: "flower/zephyr-flower.jpg" },
-            "Sickness": { name: "Zephyr Flower", meaning: "Sickness", opposite: "Health", color: "#64748B", image: "flower/zephyr-flower.jpg" },
-            "Miss friend": { name: "Zinnia", meaning: "Missing a Friend", opposite: "Friend Present", color: "#EC4899", image: "flower/zinnia.jpg" },
-            "Painful recollections": { name: "Adonis (Flos)", meaning: "Painful Recollections", opposite: "Pleasant Memories", color: "#EF4444", image: "flower/adonis.jpg" },
-            "Alas! for my poor heart": { name: "Carnation (Red)", meaning: "Alas! for my poor heart", opposite: "Joyful Heart", color: "#EF4444", image: "flower/carnation-red.jpg" },
-            "Consolation": { name: "Poppy (Red)", meaning: "Consolation", opposite: "Despair", color: "#EF4444", image: "flower/poppy-red.jpg" },
-            "Remembrance": { name: "Rosemary", meaning: "Remembrance", opposite: "Forgetfulness", color: "#059669", image: "flower/rosemary.jpg" },
-            "Departure": { name: "Sweet Pea", meaning: "Departure", opposite: "Arrival", color: "#EC4899", image: "flower/sweat-pea.jpg" },
-            "Lonely": { name: "Asphodel", meaning: "My regrets follow you to the grave", opposite: "New Beginnings", color: "#64748B", image: "flower/asphodel.jpg" },
-            "Grieved": { name: "Aloe", meaning: "Grief", opposite: "Consolation", color: "#166534", image: "flower/aloe.jpg" },
-            "Angry": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
-            "Hatred": { name: "Basil", meaning: "Hatred", opposite: "Benevolence", color: "#7F1D1D", image: "flower/basil.jpg" },
-            "Jealousy": { name: "Yellow Rose", meaning: "Jealousy", opposite: "Trust", color: "#EAB308", image: "flower/yellow-rose.jpg" },
-            "Frustrated": { name: "Hydrangea", meaning: "Heartlessness", opposite: "Warmth", color: "#BFDBFE", image: "flower/hydrangea.jpg" },
-            "Heartlessness": { name: "Hydrangea", meaning: "Heartlessness", opposite: "Warmth", color: "#BFDBFE", image: "flower/hydrangea.jpg" },
-            "Disdain": { name: "Yellow Carnation", meaning: "Disdain", opposite: "Respect", color: "#EAB308", image: "flower/yellow-carnation.jpg" },
-            "Ingratitude": { name: "Buttercup", meaning: "Ingratitude", opposite: "Gratitude", color: "#FEF08A", image: "flower/buttercup.jpg" },
-            "Fickleness": { name: "Pink Larkspur", meaning: "Fickleness", opposite: "Constancy", color: "#EC4899", image: "flower/larkspur-pink.jpg" },
-            "Stupidity": { name: "Almond", meaning: "Stupidity", opposite: "Wisdom", color: "#FCE7F3", image: "flower/almond.jpg" },
-            "Bluntness": { name: "Borage", meaning: "Bluntness", opposite: "Tact", color: "#3B82F6", image: "flower/borage.jpg" },
-            "Refusal": { name: "Carnation (Striped)", meaning: "Refusal", opposite: "Acceptance", color: "#EC4899", image: "flower/carnation-striped.jpg" },
-            "Scared": { name: "Lavender", meaning: "Distrust", opposite: "Confidence", color: "#C4B5FD", image: "flower/lavender.jpg" },
-            "Distrust": { name: "Lavender", meaning: "Distrust", opposite: "Confidence", color: "#C4B5FD", image: "flower/lavender.jpg" },
-            "Indiscretion": { name: "Common Almond", meaning: "Indiscretion", opposite: "Discretion", color: "#FCE7F3", image: "flower/common-almond.jpg" },
-            "Timidity": { name: "Amaryllis", meaning: "Timidity", opposite: "Boldness", color: "#EF4444", image: "flower/amaryllis.jpg" },
-            "Bashfulness": { name: "Peony", meaning: "Bashfulness", opposite: "Boldness", color: "#EC4899", image: "flower/peony.jpg" },
-            "Pride": { name: "Amaryllis", meaning: "Pride", opposite: "Humility", color: "#EF4444", image: "flower/amaryllis.jpg" },
-            "Silence": { name: "Belladonna", meaning: "Silence", opposite: "Noise", color: "#6B7280", image: "flower/belladonna.jpg" },
-            "Anxious": { name: "Red Columbine", meaning: "Anxiety", opposite: "Serenity", color: "#F87171", image: "flower/red-columbine.jpg" },
-            "Instability": { name: "Dhalia", meaning: "Instability", opposite: "Stability", color: "#FB923C", image: "flower/dhalia.jpg" },
-            "Amazed": { name: "Angelica", meaning: "Inspiration", opposite: "Dullness", color: "#D1FAE5", image: "flower/angelica.jpg" },
-            "Surprised": { name: "Truffle", meaning: "Surprise", opposite: "Expectation", color: "#78350F", image: "flower/truffle.jpg" },
-            "Fascination": { name: "Fern", meaning: "Fascination", opposite: "Boredom", color: "#059669", image: "flower/fern.jpg" },
-            "Magic": { name: "Fern", meaning: "Magic", opposite: "Mundanity", color: "#059669", image: "flower/fern.jpg" },
-            "Ardor": { name: "Arum", meaning: "Ardor", opposite: "Apathy", color: "#EF4444", image: "flower/arum.jpg" },
-            "Afterthought": { name: "China Aster", meaning: "Afterthought", opposite: "Forethought", color: "#A855F7", image: "flower/china-aster.jpg" },
-            "Precaution": { name: "Goldenrod", meaning: "Precaution", opposite: "Recklessness", color: "#EAB308", image: "flower/goldenrod.jpg" },
-            "Shame": { name: "Peony", meaning: "Shame", opposite: "Confidence", color: "#EC4899", image: "flower/peony.jpg" },
-            "Artifice": { name: "Acanthus", meaning: "Artifice", opposite: "Sincerity", color: "#059669", image: "flower/acanthus.jpg" },
-            "Rustic oracle": { name: "Dandelion", meaning: "Rustic Oracle", opposite: "Urban Wisdom", color: "#FEF08A", image: "flower/dandelion.jpg" },
-            "Poetry": { name: "Eglantine", meaning: "Poetry", opposite: "Prose", color: "#EC4899", image: "flower/eglantine.jpg" },
-            "Insincerity": { name: "Foxglove", meaning: "Insincerity", opposite: "Sincerity", color: "#A855F7", image: "flower/foxglove.jpg" },
-            "Message": { name: "Iris", meaning: "Message", opposite: "Silence", color: "#6366F1", image: "flower/iris.jpg" },
-            "Egotism": { name: "Narcissus", meaning: "Egotism", opposite: "Humility", color: "#FEF08A", image: "flower/narcissus.jpg" },
-            "Thoughts": { name: "Pansy", meaning: "Thoughts", opposite: "Thoughtlessness", color: "#A855F7", image: "flower/pansy.jpg" }
-        };
+        // Get translated floral dictionary based on current language
+        function getFloralDict() {
+            return typeof getFloralDictionary === 'function' ? getFloralDictionary(currentLanguage) : FLORAL_DICTIONARY;
+        }
 
         const EMOTION_WHEEL = [
             { label: "Joy", color: "emerald-400", sub: ["Joyful", "Content", "Optimistic", "Peaceful", "Hope", "Innocence", "Gladness", "Purity", "Friendship", "Childishness", "Elegance", "Temperance", "Constancy", "Fidelity", "Mental beauty", "Preference", "Amiability", "Humility", "Incorruptible", "Steadfast piety", "Neatness", "Modesty", "Youthfulness", "Sweetness", "Candor"] },
@@ -771,8 +667,9 @@
             const categoryColor = colorMap[cat.color] || "#6b7280";
             const lighterColor = lightenColor(categoryColor, 0.85); // Lighten by 85%
             
+            const floralDict = getFloralDict();
             list.innerHTML = cat.sub.map(sub => {
-                const flower = FLORAL_DICTIONARY[sub];
+                const flower = floralDict[sub];
                 const isSelected = state.selectedEmotions.includes(sub);
                 // Use data attributes to avoid escaping issues with apostrophes
                 return `
@@ -795,7 +692,8 @@
         }
 
         function showFlowerPreview(event, emotion) {
-            const flower = FLORAL_DICTIONARY[emotion];
+            const floralDict = getFloralDict();
+            const flower = floralDict[emotion];
             if (!flower) return;
             
             const preview = document.getElementById('flower-preview');
@@ -889,7 +787,8 @@
             const nuanceKey = state.nuance.toLowerCase();
             badge.innerText = `${t('mode')}: ${t(nuanceKey)}`;
 
-            const bouquet = state.selectedEmotions.map(e => ({ emotion: e, ...FLORAL_DICTIONARY[e] }));
+            const floralDict = getFloralDict();
+            const bouquet = state.selectedEmotions.map(e => ({ emotion: e, ...floralDict[e] }));
             
             // Render Visual Bouquet
             field.innerHTML = bouquet.map((f, i) => `
