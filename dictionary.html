@@ -34,6 +34,24 @@
         // Get current language from localStorage or default to EN
         let currentLanguage = localStorage.getItem('language') || 'EN';
         
+        // Translation system
+        const translations = {
+            EN: { opposite: "Opposite" },
+            ES: { opposite: "Opuesto" },
+            GE: { opposite: "Gegenteil" },
+            FR: { opposite: "Opposé" },
+            PL: { opposite: "Przeciwieństwo" },
+            HI: { opposite: "विपरीत" },
+            BN: { opposite: "বিপরীত" },
+            MR: { opposite: "विरुद्ध" },
+            TE: { opposite: "వ్యతిరేకం" },
+            BG: { opposite: "Противоположност" }
+        };
+
+        function t(key) {
+            return translations[currentLanguage]?.[key] || translations.EN[key] || key;
+        }
+        
         // Get translated floral dictionary
         function getFloralDict() {
             return typeof getFloralDictionary === 'function' ? getFloralDictionary(currentLanguage) : FLORAL_DICTIONARY;
@@ -104,7 +122,7 @@
                                         </div>
                                     </div>
                                     <div class="pt-4 border-t border-stone-100">
-                                        <p class="text-sm text-stone-500"><span class="font-bold">Opposite:</span> ${flower.opposite}</p>
+                                        <p class="text-sm text-stone-500"><span class="font-bold">${t('opposite')}:</span> ${flower.opposite}</p>
                                     </div>
                                 </div>
                             `).join('')}
