@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictionary - The Botanical Telegram</title>
+    <title id="page-title">Dictionary - The Botanical Telegram</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -16,8 +16,8 @@
     <div class="min-h-screen p-8">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-12">
-                <h1 class="text-5xl md:text-7xl font-bold text-stone-800 mb-4 tracking-tighter">Floral Dictionary</h1>
-                <a href="index.html" class="inline-block px-6 py-3 bg-stone-200 text-stone-800 rounded-full hover:bg-stone-300 transition-all font-sans font-bold uppercase tracking-widest text-xs">
+                <h1 id="dictionary-title" class="text-5xl md:text-7xl font-bold text-stone-800 mb-4 tracking-tighter">Floral Dictionary</h1>
+                <a href="index.html" id="back-button" class="inline-block px-6 py-3 bg-stone-200 text-stone-800 rounded-full hover:bg-stone-300 transition-all font-sans font-bold uppercase tracking-widest text-xs">
                     ← Back
                 </a>
             </div>
@@ -36,20 +36,99 @@
         
         // Translation system
         const translations = {
-            EN: { opposite: "Opposite" },
-            ES: { opposite: "Opuesto" },
-            GE: { opposite: "Gegenteil" },
-            FR: { opposite: "Opposé" },
-            PL: { opposite: "Przeciwieństwo" },
-            HI: { opposite: "विपरीत" },
-            BN: { opposite: "বিপরীত" },
-            MR: { opposite: "विरुद्ध" },
-            TE: { opposite: "వ్యతిరేకం" },
-            BG: { opposite: "Противоположност" }
+            EN: {
+                title: "The Botanical Telegram",
+                subtitle: "\"By the simple language of flowers, the most delicate and refined sentiments may be expressed.\"",
+                dictionary: "Dictionary",
+                floralDictionary: "Floral Dictionary",
+                back: "Back",
+                opposite: "Opposite"
+            },
+            ES: {
+                title: "El Telegrama Botánico",
+                subtitle: "\"Por el simple lenguaje de las flores, los sentimientos más delicados y refinados pueden expresarse.\"",
+                dictionary: "Diccionario",
+                floralDictionary: "Diccionario Floral",
+                back: "Atrás",
+                opposite: "Opuesto"
+            },
+            GE: {
+                title: "Das Botanische Telegramm",
+                subtitle: "\"Durch die einfache Sprache der Blumen können die zartesten und raffiniertesten Gefühle ausgedrückt werden.\"",
+                dictionary: "Wörterbuch",
+                floralDictionary: "Blumenwörterbuch",
+                back: "Zurück",
+                opposite: "Gegenteil"
+            },
+            FR: {
+                title: "Le Télégramme Botanique",
+                subtitle: "\"Par le simple langage des fleurs, les sentiments les plus délicats et raffinés peuvent être exprimés.\"",
+                dictionary: "Dictionnaire",
+                floralDictionary: "Dictionnaire Floral",
+                back: "Retour",
+                opposite: "Opposé"
+            },
+            PL: {
+                title: "Botaniczny Telegram",
+                subtitle: "\"Przez prosty język kwiatów można wyrazić najdelikatniejsze i najbardziej wyrafinowane uczucia.\"",
+                dictionary: "Słownik",
+                floralDictionary: "Słownik Kwiatów",
+                back: "Wstecz",
+                opposite: "Przeciwieństwo"
+            },
+            HI: {
+                title: "वनस्पति टेलीग्राम",
+                subtitle: "\"फूलों की सरल भाषा से, सबसे नाजुक और परिष्कृत भावनाओं को व्यक्त किया जा सकता है।\"",
+                dictionary: "शब्दकोश",
+                floralDictionary: "फूल शब्दकोश",
+                back: "वापस",
+                opposite: "विपरीत"
+            },
+            BN: {
+                title: "বোটানিক্যাল টেলিগ্রাম",
+                subtitle: "\"ফুলের সরল ভাষার মাধ্যমে, সবচেয়ে সূক্ষ্ম এবং পরিশীলিত অনুভূতি প্রকাশ করা যেতে পারে।\"",
+                dictionary: "অভিধান",
+                floralDictionary: "ফুল অভিধান",
+                back: "পিছনে",
+                opposite: "বিপরীত"
+            },
+            MR: {
+                title: "वनस्पती टेलीग्राम",
+                subtitle: "\"फुलांच्या सोप्या भाषेने, सर्वात नाजूक आणि परिष्कृत भावना व्यक्त केल्या जाऊ शकतात.\"",
+                dictionary: "शब्दकोश",
+                floralDictionary: "फुल शब्दकोश",
+                back: "मागे",
+                opposite: "विरुद्ध"
+            },
+            TE: {
+                title: "వృక్షశాస్త్ర టెలిగ్రామ్",
+                subtitle: "\"పువ్వుల సాధారణ భాష ద్వారా, అత్యంత సున్నితమైన మరియు శుద్ధమైన భావోద్వేగాలను వ్యక్తీకరించవచ్చు.\"",
+                dictionary: "నిఘంటువు",
+                floralDictionary: "పువ్వుల నిఘంటువు",
+                back: "వెనుకకు",
+                opposite: "వ్యతిరేకం"
+            },
+            BG: {
+                title: "Ботаническият Телеграм",
+                subtitle: "\"Чрез простия език на цветята, най-деликатните и рафинирани чувства могат да бъдат изразени.\"",
+                dictionary: "Речник",
+                floralDictionary: "Цветен Речник",
+                back: "Назад",
+                opposite: "Противоположност"
+            }
         };
 
         function t(key) {
             return translations[currentLanguage]?.[key] || translations.EN[key] || key;
+        }
+
+        function updateUITranslations() {
+            // Update page title
+            document.getElementById('page-title').textContent = `${t('dictionary')} - ${t('title')}`;
+            // Update dictionary title
+            document.getElementById('dictionary-title').textContent = t('floralDictionary');
+            // Update back button
+            document.getElementById('back-button').textContent = `← ${t('back')}`;
         }
         
         // Get translated floral dictionary
@@ -133,7 +212,10 @@
         }
 
         // Initialize dictionary on page load
-        window.onload = buildDictionary;
+        window.onload = function() {
+            updateUITranslations();
+            buildDictionary();
+        };
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Botanical Telegram - Floriography Builder</title>
+    <title id="page-title">The Botanical Telegram - Floriography Builder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -562,6 +562,11 @@
                     }
                 }
             });
+            // Update page title
+            const pageTitle = document.getElementById('page-title');
+            if (pageTitle) {
+                pageTitle.textContent = `${t.title} - Floriography Builder`;
+            }
             // Update language selector
             const selector = document.getElementById('language-selector');
             if (selector) selector.value = currentLanguage;
